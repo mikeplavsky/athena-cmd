@@ -15,10 +15,10 @@
            "s3://aws-athena-query-results1/")
 
 (.put info "aws_credentials_provider_class"
-           "com.amazonaws.auth.InstanceProfileCredentialsProvider")
+           "com.amazonaws.auth.DefaultAWSCredentialsProviderChain")
 
 (.put info "log_path"
-           "./.athena/athenajdbc.log")
+           "/tmp/athenajdbc.log")
 
 (def conn (DriverManager/getConnection athenaURI info))
 (def stmt (.createStatement conn))
@@ -34,11 +34,9 @@
                 {}
                 (range 1 (+ 1 cnt)))))
 
-(defn -main
-  [& args]
-
-  (let [query (slurp (nth args 0))
-        rs (.executeQuery stmt query)
+(defn exec
+  [query]
+  (let [rs (.executeQuery stmt query)
         m (.getMetaData rs)]
 
     (loop [
@@ -46,9 +44,15 @@
            more (.next rs)]
 
       (if-not more 
-        (println 
-          (generate-string res {:pretty true})) 
+        (generate-string res {:pretty true}) 
         (do 
           (recur 
             (conj res (read_row rs))
             (.next rs)))))))
+
+(defn -main
+  [& args]
+  (let [query (slurp (nth args 0))] 
+    (println 
+      (exec query))))
+

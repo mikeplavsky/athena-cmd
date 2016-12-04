@@ -2,7 +2,10 @@
   (:gen-class
    :methods [^:static [handler [Object] String]]))
 
+(require 'athena-cmd.core)
+
 (defn -handler 
   [obj] 
-  (str (.get obj "query")))
+  (let [query (.get obj "query")]
+    (athena-cmd.core/exec query)))
 
