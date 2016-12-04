@@ -6,4 +6,4 @@ res=`docker run \
     athena_cmd/core \
     $1`
 
-echo $res
+echo "$res"
