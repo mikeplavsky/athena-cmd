@@ -37,8 +37,6 @@
 (defn -main
   [& args]
 
-  (println "executing query")
-
   (let [query (slurp (nth args 0))
         rs (.executeQuery stmt query)
         m (.getMetaData rs)]
