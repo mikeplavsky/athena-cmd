@@ -1,5 +1,8 @@
 FROM clojure
 
+RUN apt-get update
+RUN apt-get install -y jq
+
 ADD . /athena-cmd
 WORKDIR /athena-cmd
 
