@@ -1,5 +1,6 @@
 (ns athena-cmd.core
-  (:gen-class))
+  (:gen-class)
+  (:require [cheshire.core :refer :all]))
 
 (import '(java.sql DriverManager) 
         'java.util.Properties
@@ -47,7 +48,8 @@
            more (.next rs)]
 
       (if-not more 
-        (println res) 
+        (println 
+          (generate-string res {:pretty true})) 
         (do 
           (recur 
             (conj res (read_row rs))
