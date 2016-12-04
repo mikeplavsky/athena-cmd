@@ -27,13 +27,11 @@
   (let [m (.getMetaData rs)
         cnt (.getColumnCount m)]
 
-    (doall 
-      (map 
-
-        #(println (.getColumnName m %) 
-                  (.getString rs %)) 
-
-                  (range 1 (+ 1 cnt))))))
+    (reduce 
+      #(assoc %1 (.getColumnName m %2) 
+                (.getString rs %2)) 
+                {}
+                (range 1 (+ 1 cnt)))))
 
 (defn -main
   [& args]
@@ -44,9 +42,13 @@
         rs (.executeQuery stmt query)
         m (.getMetaData rs)]
 
-    (loop [more (.next rs)]
+    (loop [
+           res []
+           more (.next rs)]
+
       (if-not more 
-        (println "done") 
+        (println res) 
         (do 
-          (read_row rs)
-          (recur (.next rs)))))))
+          (recur 
+            (conj res (read_row rs))
+            (.next rs)))))))

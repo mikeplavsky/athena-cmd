@@ -1,4 +1,4 @@
-SELECT COUNT(*)
+SELECT *
 FROM (
     VALUES
 
