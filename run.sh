@@ -1,9 +1,10 @@
+JAVA_CMD=/usr/lib/jvm/java-8-openjdk-amd64/bin/java
+
 res=`docker run \
     -ti \
     --rm \
     mikeplavsky/athena-cmd \
-    java -cp lib/*:target/uberjar/* \
-    athena_cmd/core \
+    $JAVA_CMD -jar target/uberjar/athena-cmd-0.1.0-SNAPSHOT-standalone.jar \
     $1`
 
 echo "$res"
