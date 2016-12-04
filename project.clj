@@ -10,4 +10,10 @@
                  [cheshire "5.6.3"]]
   :main ^:skip-aot athena-cmd.core
   :target-path "target/%s"
-  :profiles {:uberjar {:aot :all}})
+  :profiles {:local {:aot 
+                     :all 
+                     :name "local.jar"}
+
+             :lambda {:aot 
+                      :all
+                      :name "lambda.jar"}})
