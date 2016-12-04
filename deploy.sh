@@ -1,3 +1,6 @@
+aws lambda delete-function \
+    --function-name athena-cmd \
+
 aws lambda create-function \
     --function-name athena-cmd \
     --handler main::handler \

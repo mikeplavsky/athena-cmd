@@ -12,3 +12,4 @@ pom.xml.asc
 .hg/
 *.swp
 lib
+test.txt

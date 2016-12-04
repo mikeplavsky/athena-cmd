@@ -1,8 +1,8 @@
 (ns main 
   (:gen-class
-    :method [^:static [handler [String] String]]))
+   :methods [^:static [handler [Object] String]]))
 
 (defn -handler 
-  [s] 
-  (str "got " s))
+  [obj] 
+  (str (.get obj "query")))
 
