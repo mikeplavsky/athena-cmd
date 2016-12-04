@@ -1,1 +1,7 @@
-docker run -ti --rm mikeplavsky/athena-cmd bash
+docker run \
+    -ti \
+    --rm \
+    mikeplavsky/athena-cmd \
+    java -cp lib/*:target/uberjar/* \
+    athena_cmd/core \
+    $1

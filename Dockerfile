@@ -5,5 +5,6 @@ WORKDIR /athena-cmd
 
 RUN lein deps
 RUN lein uberjar
+RUN lein repl
 
-CMD java -cp lib/*:target/uberjar/* athena_cmd/core
+CMD lein repl
