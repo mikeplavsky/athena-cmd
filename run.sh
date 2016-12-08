@@ -3,6 +3,7 @@ JAVA_CMD=/usr/lib/jvm/java-8-openjdk-amd64/bin/java
 res=`docker run \
     -ti \
     --rm \
+    -v $(pwd):/scripts \
     mikeplavsky/athena-cmd \
     $JAVA_CMD -jar target/uberjar/athena-cmd-0.1.0-SNAPSHOT-standalone.jar \
     $1`

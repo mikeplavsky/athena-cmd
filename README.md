@@ -1,6 +1,6 @@
 When running as command line: 
 ```bash
-./run.sh rows.sql
+./run.sh /scripts/rows.sql
 ```
 
 For running as AWS Lambda:
