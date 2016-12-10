@@ -1,6 +1,6 @@
 (ns main 
   (:gen-class
-   :methods [^:static [handler [Object] String]]))
+   :methods [^:static [handler [Object] Object]]))
 
 (require 'athena-cmd.core)
 
