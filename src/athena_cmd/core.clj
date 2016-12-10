@@ -11,8 +11,12 @@
 
 (def info (Properties.))
 
+(def s3_path_env "ATHENA_S3_PATH")
+(def s3_path (System/getenv s3_path_env))
+
 (.put info "s3_staging_dir" 
-           "s3://aws-athena-query-results1/")
+      (if s3_path s3_path 
+        (throw (Exception. (str s3_path_env " is not set.")))))
 
 (.put info "aws_credentials_provider_class"
            "com.amazonaws.auth.DefaultAWSCredentialsProviderChain")
