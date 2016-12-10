@@ -3,4 +3,4 @@ docker run \
     --rm \
     -v $(pwd):/athena-cmd \
     mikeplavsky/athena-cmd \
-    bash
+    lein repl
