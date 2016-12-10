@@ -20,6 +20,8 @@ RUN ./repo.sh
 
 ENV JAVA_CMD $JAVA_HOME/bin/java
 
+ENV ATHENA_S3_PATH s3://aws-athena-query-results1
+
 RUN lein deps
 RUN lein uberjar
 
