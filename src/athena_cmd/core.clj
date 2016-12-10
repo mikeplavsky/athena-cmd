@@ -44,15 +44,19 @@
            more (.next rs)]
 
       (if-not more 
-        (generate-string res {:pretty true}) 
+        res
         (do 
           (recur 
             (conj res (read_row rs))
             (.next rs)))))))
 
+(defn query 
+  [file]
+  (exec (slurp file)))
+
 (defn -main
   [& args]
-  (let [query (slurp (nth args 0))] 
+  (let [file (nth args 0)] 
     (println 
-      (exec query))))
+      (generate-string (query file) {:pretty true}))))
 
