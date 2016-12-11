@@ -25,7 +25,7 @@
             "com.amazonaws.auth.DefaultAWSCredentialsProviderChain")
 
       (.put "log_path"
-            (.getPath tmp))) 
+            (.getAbsolutePath tmp))) 
 
           info))
 
@@ -57,7 +57,11 @@
            more (.next rs)]
 
       (if-not more 
-        [res (get info "log_path")]
+
+        [res 
+         (get info "log_path") 
+         (.close stmt)]
+
         (do 
           (recur 
             (conj res (read_row rs))
