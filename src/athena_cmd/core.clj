@@ -34,7 +34,7 @@
         "jdbc:awsathena://athena.us-east-1.amazonaws.com:443"
         info (get_properties)
         conn (DriverManager/getConnection athenaURI info)
-        stmt (.createStatement conn)] stmt))
+        stmt (.createStatement conn)] [stmt info]))
 
 (defn read_row 
   [rs]
@@ -49,13 +49,14 @@
 
 (defn exec
   [query]
-  (let [rs (.executeQuery (get_stmt) query)]
+  (let [[stmt info] (get_stmt)
+        rs (.executeQuery stmt query)]
 
     (loop [res []
            more (.next rs)]
 
       (if-not more 
-        res
+        [res (get info "log_path")]
         (do 
           (recur 
             (conj res (read_row rs))
@@ -63,15 +64,15 @@
 
 (defn query 
   [file]
-  (exec (slurp file)))
+  (first (exec (slurp file))))
 
 (defn query-table 
   [file]
-  (print-table (query file)))
+  (print-table (first (query file))))
 
 (defn exec-table 
   [query]
-  (print-table (exec query)))
+  (print-table (first (exec query))))
 
 (defn -main
   [& args]
