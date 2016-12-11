@@ -64,6 +64,10 @@
   [file]
   (print-table (query file)))
 
+(defn exec-table 
+  [query]
+  (print-table (exec query)))
+
 (defn -main
   [& args]
   (let [file (nth args 0)] 
