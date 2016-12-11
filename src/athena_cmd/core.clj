@@ -13,7 +13,8 @@
   (let [info (Properties.)
         s3_path_env "ATHENA_S3_PATH"
         s3_path (System/getenv s3_path_env)
-        ]
+        tmp (java.io.File/createTempFile "athena" ".log")]
+
     (doto info 
 
       (.put "s3_staging_dir" 
@@ -24,7 +25,7 @@
             "com.amazonaws.auth.DefaultAWSCredentialsProviderChain")
 
       (.put "log_path"
-            "/tmp/athenajdbc.log")) 
+            (.getPath tmp))) 
 
           info))
 
