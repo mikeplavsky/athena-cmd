@@ -69,9 +69,8 @@
       (if-not more 
 
         (do 
-          [res 
-           (get_session_id f) 
-           f])
+          {:res res 
+           :session_id (get_session_id f)})
 
         (do 
           (recur 
@@ -80,15 +79,15 @@
 
 (defn query 
   [file]
-  (first (exec (slurp file))))
+  (exec (slurp file)))
 
 (defn query-table 
   [file]
-  (print-table (first (query file))))
+  (print-table (:res (query file))))
 
 (defn exec-table 
   [query]
-  (print-table (first (exec query))))
+  (print-table (:res (exec query))))
 
 (defn -main
   [& args]

@@ -7,6 +7,6 @@ aws lambda create-function \
     --runtime java8 \
     --environment Variables={ATHENA_S3_PATH=$ATHENA_S3_PATH} \
     --memory 512 \
-    --timeout 10 \
+    --timeout 50 \
     --role $ROLE \
     --zip-file fileb://./target/uberjar/athena-cmd-0.1.0-SNAPSHOT-standalone.jar
