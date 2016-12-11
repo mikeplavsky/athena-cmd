@@ -48,19 +48,30 @@
                 {}
                 (range 1 (+ 1 cnt)))))
 
+(defn get_session_id
+  [fn]
+  (let [ls (clojure.string/split-lines (slurp fn))
+        m (map 
+            #(re-matches #".*Execution ID: (.*)" %) 
+            ls)
+        f (filter #(< 0 (count %)) m)]
+    (second (first f))))
+
 (defn exec
   [query]
   (let [[stmt info] (get_stmt)
-        rs (.executeQuery stmt query)]
+        rs (.executeQuery stmt query)
+        f (get info "log_path")]
 
     (loop [res []
            more (.next rs)]
 
       (if-not more 
 
-        [res 
-         (get info "log_path") 
-         (.close stmt)]
+        (do 
+          [res 
+           (get_session_id f) 
+           f])
 
         (do 
           (recur 
