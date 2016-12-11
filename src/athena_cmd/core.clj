@@ -6,6 +6,8 @@
         'java.util.Properties
         'com.amazonaws.athena.jdbc.AthenaDriver)
 
+(use '[clojure.pprint :only [print-table]])
+
 (def athenaURI 
   "jdbc:awsathena://athena.us-east-1.amazonaws.com:443")
 
@@ -57,6 +59,10 @@
 (defn query 
   [file]
   (exec (slurp file)))
+
+(defn query-table 
+  [file]
+  (print-table (query file)))
 
 (defn -main
   [& args]
