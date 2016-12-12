@@ -15,6 +15,6 @@
   (let [query (.get obj "query")
         request_id (.getAwsRequestId ctx)]
 
-    {:res (athena-cmd.core/exec query)
-     :request_id request_id}))
+    {"res" (athena-cmd.core/exec query :folder request_id)
+     "request_id" request_id}))
 

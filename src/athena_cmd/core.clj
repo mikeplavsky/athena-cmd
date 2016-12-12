@@ -13,7 +13,7 @@
     (java.io.File/createTempFile "athena" ".log")))
 
 (defn get_properties
-  []
+  [folder]
   (let [info (Properties.)
         s3_path_env "ATHENA_S3_PATH"
         s3_path (str (System/getenv s3_path_env))]
@@ -21,7 +21,7 @@
     (doto info 
 
       (.put "s3_staging_dir" 
-        (if s3_path s3_path 
+        (if s3_path (str s3_path folder) 
           (throw (Exception. (str s3_path_env " is not set.")))))
 
       (.put "aws_credentials_provider_class"
@@ -32,10 +32,10 @@
           info))
 
 (defn get_stmt 
-  [] 
+  [folder] 
   (let [athenaURI 
         "jdbc:awsathena://athena.us-east-1.amazonaws.com:443"
-        info (get_properties)
+        info (get_properties folder)
         conn (DriverManager/getConnection athenaURI info)
         stmt (.createStatement conn)] [stmt info]))
 
@@ -55,7 +55,7 @@
   [query & {:keys [folder]
             :or {folder ""}}]
 
-  (let [[stmt info] (get_stmt)
+  (let [[stmt info] (get_stmt folder)
         rs (.executeQuery stmt query)
         f (get info "log_path")]
 
