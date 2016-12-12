@@ -8,12 +8,15 @@
 
 (use '[clojure.pprint :only [print-table]])
 
+(def log_path 
+  (.getAbsolutePath 
+    (java.io.File/createTempFile "athena" ".log")))
+
 (defn get_properties
   []
   (let [info (Properties.)
         s3_path_env "ATHENA_S3_PATH"
-        s3_path (System/getenv s3_path_env)
-        tmp (java.io.File/createTempFile "athena" ".log")]
+        s3_path (str (System/getenv s3_path_env))]
 
     (doto info 
 
@@ -24,8 +27,7 @@
       (.put "aws_credentials_provider_class"
             "com.amazonaws.auth.DefaultAWSCredentialsProviderChain")
 
-      (.put "log_path"
-            (.getAbsolutePath tmp))) 
+      (.put "log_path" log_path)) 
 
           info))
 
@@ -48,17 +50,11 @@
                 {}
                 (range 1 (+ 1 cnt)))))
 
-(defn get_session_id
-  [fn]
-  (let [ls (clojure.string/split-lines (slurp fn))
-        m (map 
-            #(re-matches #".*Execution ID: (.*)" %) 
-            ls)
-        f (filter #(< 0 (count %)) m)]
-    (second (first f))))
-
 (defn exec
-  [query]
+
+  [query & {:keys [folder]
+            :or {folder ""}}]
+
   (let [[stmt info] (get_stmt)
         rs (.executeQuery stmt query)
         f (get info "log_path")]
@@ -68,9 +64,7 @@
 
       (if-not more 
 
-        (do 
-          {:res res 
-           :session_id (get_session_id f)})
+        res
 
         (do 
           (recur 
@@ -83,11 +77,11 @@
 
 (defn query-table 
   [file]
-  (print-table (:res (query file))))
+  (print-table (query file)))
 
 (defn exec-table 
   [query]
-  (print-table (:res (exec query))))
+  (print-table (exec query)))
 
 (defn -main
   [& args]

@@ -7,6 +7,7 @@
   :dependencies [
                  [org.clojure/clojure "1.8.0"]
                  [com.amazonaws/aws-java-sdk-core "1.11.63"]
+                 [com.amazonaws/aws-lambda-java-core "1.1.0"]
                  [local/AthenaJDBC41 "1.0.0"]
                  [cheshire "5.6.3"]]
   :main ^:skip-aot athena-cmd.core
