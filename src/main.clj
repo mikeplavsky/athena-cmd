@@ -15,6 +15,9 @@
   (let [query (.get obj "query")
         request_id (.getAwsRequestId ctx)]
 
+    (print (str request_id ": "))
+    (println query)
+
     {"res" (athena-cmd.core/exec query :folder request_id)
      "request_id" request_id}))
 
