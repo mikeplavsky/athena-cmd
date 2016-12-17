@@ -1,5 +1,5 @@
 (ns main 
-
+  (:require [cheshire.core :refer :all])
   (:gen-class
    :methods [^:static 
              [handler 
@@ -16,8 +16,8 @@
         request_id (.getAwsRequestId ctx)]
 
     (print (str request_id ": "))
-    (println query)
+    (println (generate-string {"query" query}))
 
-    {"res" (athena-cmd.core/exec query :folder request_id)
-     "request_id" request_id}))
+    (time {"res" (athena-cmd.core/exec query :folder request_id)
+     "request_id" request_id})))
 
