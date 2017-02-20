@@ -6,6 +6,7 @@ When running as command line:
 For running as AWS Lambda:
 ```bash
 export ROLE=<IAM role which has an access to Athena and S3>
+export ATHENA_S3_PATH=<s3 path to athena>
 ./deploy.sh
 ```
 
