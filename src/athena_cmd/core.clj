@@ -33,8 +33,13 @@
 
 (defn get_stmt 
   [folder] 
-  (let [athenaURI 
-        "jdbc:awsathena://athena.us-east-1.amazonaws.com:443"
+  (let [
+        aws_region_env (str (System/getenv "AWS_DEFAULT_REGION"))
+        athenaURI 
+            (str 
+              "jdbc:awsathena://athena." 
+              aws_region_env 
+              ".amazonaws.com:443")
         info (get_properties folder)
         conn (DriverManager/getConnection athenaURI info)
         stmt (.createStatement conn)] [stmt info]))
